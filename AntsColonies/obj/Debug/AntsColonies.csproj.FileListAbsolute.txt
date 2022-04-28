@@ -1,0 +1,6 @@
+C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\bin\Debug\AntsColonies.exe
+C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\bin\Debug\AntsColonies.pdb
+C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\obj\Debug\AntsColonies.csprojAssemblyReference.cache
+C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\obj\Debug\AntsColonies.csproj.CoreCompileInputs.cache
+C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\obj\Debug\AntsColonies.exe
+C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\obj\Debug\AntsColonies.pdb
