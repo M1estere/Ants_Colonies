@@ -44,9 +44,58 @@ namespace AntsColonies
             Health = Health + Protection;
         }
 
-        private void Collect()
-        {
-            
+        internal void Collect(Squad squad, Stack stack)
+        { 
+            int randomResource = Globals.Random.Next(0, 5);
+            switch (randomResource) // grabbing random resource
+            {
+                case 0:
+                    if (stack.Branches != 0)
+                    {
+                        stack.Branches--;
+                        squad.Branches++;
+                        break;
+                    } else
+                    {
+                        randomResource = Globals.Random.Next(0, 5); // choosing again
+                        break;
+                    }
+                case 1:
+                    if (stack.Branches != 0)
+                    {
+                        stack.Dewdrops--;
+                        squad.Dewdrops++;
+                        break;
+                    } else
+                    {
+                        randomResource = Globals.Random.Next(0, 5);
+                        break;
+                    }
+                case 2:
+                    if (stack.Branches != 0)
+                    {
+                        stack.Leaves--;
+                        squad.Leaves++;
+                        break;
+                    } else
+                    {
+                        randomResource = Globals.Random.Next(0, 5);
+                        break;
+                    }
+                case 3:
+                    if (stack.Branches != 0)
+                    {
+                        stack.Stones--;
+                        squad.Stones++;
+                        break;
+                    } else
+                    {
+                        randomResource = Globals.Random.Next(0, 5);
+                        break;
+                    }
+                default:
+                    break;
+            }
         }
 
         internal override void GetInfo()

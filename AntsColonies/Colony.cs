@@ -47,7 +47,7 @@ namespace AntsColonies
 
             for (int i = 0; i < (WarriorsAmount - specialWarriors); i++)
             {
-                Warriors.Add(new AntWarrior(0, 0, 0, Queen.Name, CreatureRank.Common));
+                Warriors.Add(new AntWarrior(1, 0, 1, Queen.Name, CreatureRank.Common));
             }
         }
 

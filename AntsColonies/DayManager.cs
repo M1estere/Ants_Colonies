@@ -10,6 +10,11 @@ namespace AntsColonies
         
         internal Hike hike = new Hike();
 
+        internal DayManager()
+        {
+            InitGame();
+        }
+        
         protected internal void Day()
         {
             hike.Start(Colonies, Stacks);
@@ -38,14 +43,14 @@ namespace AntsColonies
             InitStacks();
             
             // init first colony (red)
-            Colony _redColony = new Colony(new Queen("Изабелла", 23, 8, 26),"Красные", 18, 9, 1);
+            Colony _redColony = new Colony(new Queen("Изабелла", 23, 8, 26, 0, 0),"Красные", 18, 9, 1);
             InitColony(_redColony, CreatureRank.Elder, CreatureRank.Elite, CreatureRank.Legend, CreatureRank.Legend, CreatureRank.Elite, CreatureRank.Elite);
             _redColony.PrintColony();
 
             Globals.Colonies.Add(_redColony);
             
             // init second colony (orange)
-            Colony _orangeColony = new Colony(new Queen("Клеопатра", 21, 6, 21),"Рыжие", 18, 6, 1);
+            Colony _orangeColony = new Colony(new Queen("Клеопатра", 21, 6, 21, 0, 0),"Рыжие", 18, 6, 1);
             InitColony(_orangeColony, CreatureRank.Elder, CreatureRank.Legend, CreatureRank.Advanced, CreatureRank.Elder, CreatureRank.Elder, CreatureRank.Advanced);
             _orangeColony.PrintColony();
             

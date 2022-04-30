@@ -2,7 +2,7 @@
 
 namespace AntsColonies
 {
-    #region Main
+    
     static class Program
     {
         private static int _daysBeforeDrying = 15;
@@ -18,7 +18,6 @@ namespace AntsColonies
             BeginPrint();
             
             DayManager _dayManager = new DayManager();
-            _dayManager.InitGame();
             
             while (_daysBeforeDrying > 0)
             {
@@ -30,5 +29,4 @@ namespace AntsColonies
             }
         }
     }
-    #endregion
 }

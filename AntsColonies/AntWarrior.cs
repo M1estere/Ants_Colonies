@@ -69,7 +69,7 @@ namespace AntsColonies
                     enemy.Health -= Damage;
                 } else if ((enemy is AntWarrior) || (enemy is SpecialInsect))
                 {
-                    StartBattle(enemy);
+                    StartFight(enemy);
                 }
 
                 if (Health <= 0)
@@ -77,7 +77,7 @@ namespace AntsColonies
             }
         }
 
-        private void StartBattle(Creature enemy)
+        private void StartFight(Creature enemy)
         {
             if (firstBlood % 2 == 0)
             {

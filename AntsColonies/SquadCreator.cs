@@ -11,7 +11,7 @@ namespace AntsColonies
             {
                 if (stacks[k].Branches == 0 && stacks[k].Dewdrops == 0 && stacks[k].Leaves == 0 &&
                     stacks[k].Stones == 0)
-                    continue;
+                    continue; // if an empty stack then search another one
                 
                 Squad squad = new Squad(colony.Name);
             
@@ -22,7 +22,7 @@ namespace AntsColonies
     
                 randomWarriorsNumber = colony.Warriors.Count > 0 ? Globals.Random.Next(1, colony.Warriors.Count) : Globals.Random.Next(0, colony.Warriors.Count);
             
-                for (int i = 0; i < randomWorkersNumber; i++)
+                for (int i = 0; i < randomWorkersNumber; i++) // fillings squad with workers
                 {
                     int random = Globals.Random.Next(0, colony.Workers.Count);
         
@@ -30,7 +30,7 @@ namespace AntsColonies
                     colony.Workers.RemoveAt(random);
                 }
         
-                for (int i = 0; i < randomWarriorsNumber; i++)
+                for (int i = 0; i < randomWarriorsNumber; i++) // filling squad with warriors
                 {
                     int random = Globals.Random.Next(0, colony.Warriors.Count);
         
@@ -38,7 +38,7 @@ namespace AntsColonies
                     colony.Warriors.RemoveAt(random);
                 }
     
-                if (randomWorkersNumber > 0 || randomWarriorsNumber > 0)
+                if (randomWorkersNumber > 0 || randomWarriorsNumber > 0) // adding squads to the current stack 
                     stacks[k].CurrentSquads.Add(squad);
             }
         }
