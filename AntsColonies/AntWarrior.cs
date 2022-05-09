@@ -4,49 +4,61 @@ namespace AntsColonies
 {
     public class AntWarrior : Creature
     {
-        internal string _queenName;
-        internal CreatureRank Rank;
+        internal WarriorRank Rank;
 
-        internal bool CanAttack = true;
+        // attack params
+        internal int AntsToAttack;
+
+        private int _maxBiteCount;
+        private int _currentBiteCount = 0;
         
-        private int firstBlood;
-        
-        public AntWarrior(int _health, int _protection, int _damage, string queenName, CreatureRank _rank) : base(_health, _protection, _damage)
+        public AntWarrior(int _health, int _protection, int _damage, Queen _queen, WarriorRank _rank) : base(_queen, _health, _protection, _damage)
         {
-            _queenName = queenName;
+            Queen = _queen;
             Rank = _rank;
+            
             switch (_rank)
             {
-                case CreatureRank.Common:
+                case WarriorRank.Common:
                     Health = 1;
                     Protection = 0;
                     Damage = 1;
+                    AntsToAttack = 1;
+                    _maxBiteCount = 1;
                     break;
-                case CreatureRank.Advanced:
+                case WarriorRank.Advanced:
                     Health = 6;
                     Protection = 2;
                     Damage = 4;
+                    AntsToAttack = 2;
+                    _maxBiteCount = 1;
                     break;
-                case CreatureRank.Elder:
+                case WarriorRank.Elder:
                     Health = 2;
                     Protection = 1;
                     Damage = 2;
+                    AntsToAttack = 1;
+                    _maxBiteCount = 1;
                     break;
-                case CreatureRank.Elite:
+                case WarriorRank.Elite:
                     Health = 8;
                     Protection = 4;
                     Damage = 3;
+                    AntsToAttack = 2;
+                    _maxBiteCount = 2;
                     break;
-                case CreatureRank.Legend:
+                case WarriorRank.Legend:
                     Health = 8;
                     Protection = 6;
                     Damage = 4;
+                    AntsToAttack = 3;
+                    _maxBiteCount = 1;
                     break;
                 default:
                     break;
             }
 
-            Health = Protection + Health;
+            Health += Protection;
         }
         
         internal override void GetInfo()
@@ -56,37 +68,47 @@ namespace AntsColonies
             Console.WriteLine("\n---------------------------------------------\n");
         }
 
-        internal void GetQueenInfo() => Console.WriteLine($"Моя королева: {_queenName}");
+        internal void GetQueenInfo() => Console.WriteLine($"Моя королева: {Queen.Name}");
 
         internal void Attack(Creature enemy)
         {
-            firstBlood = Globals.Random.Next(0, 2);
-            
-            while (enemy.Health > 0)
+            if (enemy == null) return;
+            while (_currentBiteCount < _maxBiteCount)
             {
+                _currentBiteCount++;
+                
                 if (enemy is AntWorker)
                 {
-                    enemy.Health -= Damage;
+                    enemy.Health -= enemy.Health; // сразу убивает рабочего
                 } else if ((enemy is AntWarrior) || (enemy is SpecialInsect))
                 {
-                    StartBattle(enemy);
+                    Fight(enemy); // наносит урон
                 }
-
-                if (Health <= 0)
-                    break;
             }
+            _currentBiteCount = 0;
         }
 
-        private void StartBattle(Creature enemy)
+        private void Fight(Creature enemy)
         {
-            if (firstBlood % 2 == 0)
+            if (Health > 0 && enemy.Health > 0)
             {
-                Health -= enemy.Damage;
-                enemy.Health -= Damage;
-            } else
-            {
-                enemy.Health -= Damage;
-                Health -= enemy.Damage;
+                int randomPunch = Globals.Random.Next(0, 2);
+
+                if (randomPunch % 2 == 0)
+                {
+                    if (Health > 0)
+                        enemy.Health -= Damage;
+                    
+                    if (enemy.Health > 0)
+                        Health -= enemy.Damage;
+                } else
+                {
+                    if (enemy.Health > 0)
+                        Health -= enemy.Damage;
+                    
+                    if (Health > 0)
+                        enemy.Health -= Damage;
+                }
             }
         }
     }

@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AntsColonies
 {
-    #region Main
     static class Program
     {
         private static int _daysBeforeDrying = 15;
 
+        private static int _currentDays = 1;
+        
         private static void BeginPrint()
         {
             Console.WriteLine($"\nДо засухи: {_daysBeforeDrying} дней");
@@ -18,17 +21,33 @@ namespace AntsColonies
             BeginPrint();
             
             DayManager _dayManager = new DayManager();
-            _dayManager.InitGame();
             
-            while (_daysBeforeDrying > 0)
+            while (_currentDays <= _daysBeforeDrying)
             {
-                Console.WriteLine($"------------------- День: {Math.Abs(_daysBeforeDrying - 16)} -------------------");
+                Console.WriteLine($"------------------- День: {_currentDays} -------------------");
                 _dayManager.Day();
-                _daysBeforeDrying--;
-                Console.WriteLine("\nНажмите Enter, чтобы начать следующий день");
+                _currentDays++;
+                if (_currentDays >= _daysBeforeDrying)
+                    Console.WriteLine("\nНажмите Enter, чтобы закончить");
+                else
+                    Console.WriteLine("\nНажмите Enter, чтобы начать следующий день");
                 Console.ReadLine();
             }
+
+            FinishSimulation();
+        }
+
+        private static void FinishSimulation()
+        {
+            List<int> coloniesResources = new List<int>();
+            
+            foreach (Colony colony in Globals.Colonies)
+            {
+                int resources = colony.Branches + colony.Dewdrops + colony.Leaves + colony.Stones;
+                coloniesResources.Add(resources);
+            }
+
+            Console.WriteLine($"------------------{Globals.Colonies[coloniesResources.IndexOf(coloniesResources.Max())].Name} выживают!!!!------------------");
         }
     }
-    #endregion
 }

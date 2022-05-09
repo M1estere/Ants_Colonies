@@ -1,6 +1,6 @@
 ﻿namespace AntsColonies
 {
-    internal enum Resource
+    public enum Resource
     {
         Branch,
         Leaf,

@@ -42,7 +42,6 @@
     <ItemGroup>
         <Compile Include="AntWarrior.cs" />
         <Compile Include="AntWorker.cs" />
-        <Compile Include="Battle.cs" />
         <Compile Include="Colony.cs" />
         <Compile Include="Creature.cs" />
         <Compile Include="CreatureRank.cs" />
