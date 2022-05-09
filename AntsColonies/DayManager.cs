@@ -61,8 +61,14 @@ namespace AntsColonies
             InitStacks();
             
             // init first colony (red)
+<<<<<<< HEAD
             Colony _redColony = new Colony("Красные", 18, 9);
             Queen Isabella = new Queen("Изабелла", 23, 8, 26, 3, 4, 3, 4, true, null, _redColony);
+=======
+            Colony _redColony = new Colony(new Queen("Изабелла", 23, 8, 26, 0, 0),"Красные", 18, 9, 1);
+            InitColony(_redColony, CreatureRank.Elder, CreatureRank.Elite, CreatureRank.Legend, CreatureRank.Legend, CreatureRank.Elite, CreatureRank.Elite);
+            _redColony.PrintColony();
+>>>>>>> 45647807db5c2f8efec21abc70a700949550b749
 
             _redColony.Queen = Isabella;
 
@@ -72,6 +78,7 @@ namespace AntsColonies
             _redColony.PrintColony();
             
             // init second colony (orange)
+<<<<<<< HEAD
             Colony _orangeColony = new Colony("Рыжие", 18, 6);
             Queen Kleopatra = new Queen("Клеопатра", 21, 6, 21, 1, 4, 3, 5, true, null, _orangeColony);
 
@@ -80,6 +87,10 @@ namespace AntsColonies
             _orangeColony.Specials.Add(new SpecialInsect("Толстоножка", SpecialInsectRank.Lazy, Kleopatra, 0, 0, 0));
             
             InitColony(_orangeColony, WorkerRank.ElderTwo, WorkerRank.Legend, WorkerRank.AdvancedForget, WarriorRank.Elder, WarriorRank.Elder, WarriorRank.Advanced);
+=======
+            Colony _orangeColony = new Colony(new Queen("Клеопатра", 21, 6, 21, 0, 0),"Рыжие", 18, 6, 1);
+            InitColony(_orangeColony, CreatureRank.Elder, CreatureRank.Legend, CreatureRank.Advanced, CreatureRank.Elder, CreatureRank.Elder, CreatureRank.Advanced);
+>>>>>>> 45647807db5c2f8efec21abc70a700949550b749
             _orangeColony.PrintColony();
             
             Globals.Colonies.Add(_redColony);

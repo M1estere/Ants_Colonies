@@ -82,13 +82,21 @@ namespace AntsColonies
                     enemy.Health -= enemy.Health; // сразу убивает рабочего
                 } else if ((enemy is AntWarrior) || (enemy is SpecialInsect))
                 {
+<<<<<<< HEAD
                     Fight(enemy); // наносит урон
+=======
+                    StartFight(enemy);
+>>>>>>> 45647807db5c2f8efec21abc70a700949550b749
                 }
             }
             _currentBiteCount = 0;
         }
 
+<<<<<<< HEAD
         private void Fight(Creature enemy)
+=======
+        private void StartFight(Creature enemy)
+>>>>>>> 45647807db5c2f8efec21abc70a700949550b749
         {
             if (Health > 0 && enemy.Health > 0)
             {

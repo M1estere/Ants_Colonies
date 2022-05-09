@@ -8,7 +8,12 @@ namespace AntsColonies
         {
             for (int k = 0; k < stacks.Count; k++)
             {
+<<<<<<< HEAD
                 if (stacks[k].Branches == 0 && stacks[k].Dewdrops == 0 && stacks[k].Leaves == 0 && stacks[k].Stones == 0)
+=======
+                if (stacks[k].Branches == 0 && stacks[k].Dewdrops == 0 && stacks[k].Leaves == 0 &&
+                    stacks[k].Stones == 0)
+>>>>>>> 45647807db5c2f8efec21abc70a700949550b749
                     continue; // if an empty stack then search another one
                 
                 Squad squad = new Squad(colony.Name, colony.Queen);
@@ -51,9 +56,14 @@ namespace AntsColonies
                     squad.StackWarriors.Add(colony.Warriors[random]);
                     colony.Warriors.RemoveAt(random);
                 }
+<<<<<<< HEAD
 
                 if (randomWorkersNumber > 0 || randomWarriorsNumber > 0) // adding squad to the current stack 
                 {
+=======
+    
+                if (randomWorkersNumber > 0 || randomWarriorsNumber > 0) // adding squads to the current stack 
+>>>>>>> 45647807db5c2f8efec21abc70a700949550b749
                     stacks[k].CurrentSquads.Add(squad);
                 }
             }

@@ -4,6 +4,10 @@ using System.Linq;
 
 namespace AntsColonies
 {
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 45647807db5c2f8efec21abc70a700949550b749
     static class Program
     {
         private static int _daysBeforeDrying = 15;

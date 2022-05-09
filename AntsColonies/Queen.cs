@@ -6,6 +6,7 @@ namespace AntsColonies
     {
         internal string Name;
 
+<<<<<<< HEAD
         internal Colony Colony;
         
         // growth cycle
@@ -23,6 +24,12 @@ namespace AntsColonies
         internal List<Queen> FriendQueens = new List<Queen>();
         
         public Queen(string _name, int _health, int _protection, int _damage, int minGrowthCycle, int maxGrowthCycle, int minLarvas, int maxLarvas, bool canMakeQueens, Resource[]? _canTake = null, Colony? colony = null) : base(_health, _protection, _damage)
+=======
+        private int _minGrowthCycle;
+        private int _maxGrowthCycle;
+        
+        public Queen(string _name, int _health, int _protection, int _damage, int minGrowthCycle, int maxGrowthCycle, Resource[]? _canTake = null) : base(_health, _protection, _damage/*, _canTake*/)
+>>>>>>> 45647807db5c2f8efec21abc70a700949550b749
         {
             Colony = colony;
             
@@ -30,6 +37,7 @@ namespace AntsColonies
             
             _minGrowthCycle = minGrowthCycle;
             _maxGrowthCycle = maxGrowthCycle;
+<<<<<<< HEAD
 
             _minLarvas = minLarvas;
             _maxLarvas = maxLarvas;
@@ -66,6 +74,8 @@ namespace AntsColonies
                     Colony.Larvas.Add(larva);
                 }
             }
+=======
+>>>>>>> 45647807db5c2f8efec21abc70a700949550b749
         }
     }
 }
