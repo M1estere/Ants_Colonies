@@ -6,8 +6,6 @@ namespace AntsColonies
     {
         internal WorkerRank Rank;
 
-        private Resource[] _canTake;
-
         public AntWorker(int _health, int _protection, int _damage, Queen _queen, WorkerRank _rank) : base(_queen, _health, _protection, _damage)
         {
             Queen = _queen;
@@ -51,7 +49,6 @@ namespace AntsColonies
         }
 
         internal void Collect(Squad squad, Stack stack)
-<<<<<<< HEAD
         {
             switch (Rank)
             {
@@ -186,56 +183,6 @@ namespace AntsColonies
                         return;
                     }
                     break;
-=======
-        { 
-            int randomResource = Globals.Random.Next(0, 5);
-            switch (randomResource) // grabbing random resource
-            {
-                case 0:
-                    if (stack.Branches != 0)
-                    {
-                        stack.Branches--;
-                        squad.Branches++;
-                        break;
-                    } else
-                    {
-                        randomResource = Globals.Random.Next(0, 5); // choosing again
-                        break;
-                    }
-                case 1:
-                    if (stack.Branches != 0)
-                    {
-                        stack.Dewdrops--;
-                        squad.Dewdrops++;
-                        break;
-                    } else
-                    {
-                        randomResource = Globals.Random.Next(0, 5);
-                        break;
-                    }
-                case 2:
-                    if (stack.Branches != 0)
-                    {
-                        stack.Leaves--;
-                        squad.Leaves++;
-                        break;
-                    } else
-                    {
-                        randomResource = Globals.Random.Next(0, 5);
-                        break;
-                    }
-                case 3:
-                    if (stack.Branches != 0)
-                    {
-                        stack.Stones--;
-                        squad.Stones++;
-                        break;
-                    } else
-                    {
-                        randomResource = Globals.Random.Next(0, 5);
-                        break;
-                    }
->>>>>>> 45647807db5c2f8efec21abc70a700949550b749
                 default:
                     break;
             }

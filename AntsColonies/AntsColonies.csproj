@@ -48,10 +48,10 @@
         <Compile Include="DayManager.cs" />
         <Compile Include="Globals.cs" />
         <Compile Include="Hike.cs" />
+        <Compile Include="Larva.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Queen.cs" />
-        <Compile Include="Resource.cs" />
         <Compile Include="SpecialInsect.cs" />
         <Compile Include="Squad.cs" />
         <Compile Include="SquadCreator.cs" />

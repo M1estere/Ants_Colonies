@@ -11,6 +11,8 @@ namespace AntsColonies
 
         private int _maxBiteCount;
         private int _currentBiteCount = 0;
+
+        internal bool CanOneShot = true;
         
         public AntWarrior(int _health, int _protection, int _damage, Queen _queen, WarriorRank _rank) : base(_queen, _health, _protection, _damage)
         {
@@ -73,30 +75,26 @@ namespace AntsColonies
         internal void Attack(Creature enemy)
         {
             if (enemy == null) return;
+            
             while (_currentBiteCount < _maxBiteCount)
             {
                 _currentBiteCount++;
                 
                 if (enemy is AntWorker)
                 {
-                    enemy.Health -= enemy.Health; // сразу убивает рабочего
-                } else if ((enemy is AntWarrior) || (enemy is SpecialInsect))
+                    enemy.Health -= Damage;
+                } else if (enemy is AntWarrior)
                 {
-<<<<<<< HEAD
                     Fight(enemy); // наносит урон
-=======
-                    StartFight(enemy);
->>>>>>> 45647807db5c2f8efec21abc70a700949550b749
+                } else if (enemy is SpecialInsect)
+                {
+                    FightSpecial((SpecialInsect)enemy);
                 }
             }
             _currentBiteCount = 0;
         }
 
-<<<<<<< HEAD
         private void Fight(Creature enemy)
-=======
-        private void StartFight(Creature enemy)
->>>>>>> 45647807db5c2f8efec21abc70a700949550b749
         {
             if (Health > 0 && enemy.Health > 0)
             {
@@ -116,6 +114,26 @@ namespace AntsColonies
                     
                     if (Health > 0)
                         enemy.Health -= Damage;
+                }
+            }
+        }
+
+        private void FightSpecial(SpecialInsect enemy)
+        {
+            if (Rank == WarriorRank.Advanced) // убивает особенное с одного укуса
+            {
+                int killOrNot = Globals.Random.Next(0, 7);
+                if (killOrNot > 5) // иначе не смог убить
+                    enemy.Health -= enemy.Health;
+            }
+
+            if (Rank == WarriorRank.Elite)
+            {
+                if (CanOneShot)
+                {
+                    int killOrNot = Globals.Random.Next(0, 7);
+                    if (killOrNot > 5) // иначе не смог убить
+                        enemy.Health -= enemy.Health;
                 }
             }
         }

@@ -6,7 +6,7 @@
 
         internal string Name;
         
-        public SpecialInsect(string name, SpecialInsectRank rank, Queen queen, int _health, int _protection, int _damage, Resource[]? _canTake = null) : base(queen, _health, _protection, _damage/*, _canTake*/)
+        public SpecialInsect(string name, SpecialInsectRank rank, Queen queen, int _health, int _protection, int _damage) : base(queen, _health, _protection, _damage/*, _canTake*/)
         {
             Name = name;
             Rank = rank;

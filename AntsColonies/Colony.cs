@@ -23,6 +23,13 @@ namespace AntsColonies
 
         internal List<Larva> Larvas = new List<Larva>();
 
+        internal int NewWorkers = 0;
+        internal int NewWarriors = 0;
+
+        internal List<int> NewResources = new List<int>() {0, 0, 0, 0};
+
+        internal List<int> OldPopulation = new List<int>() {0, 0, 0}; // worker warrior special
+        
         public Colony(string name, int workersAmount, int warriorsAmount)
         {
             Name = name;
@@ -45,22 +52,16 @@ namespace AntsColonies
 
             for (int i = 0; i < (WarriorsAmount - specialWarriors); i++)
             {
-<<<<<<< HEAD
                 Warriors.Add(new AntWarrior(1, 0, 1, Queen, WarriorRank.Common));
-=======
-                Warriors.Add(new AntWarrior(1, 0, 1, Queen.Name, CreatureRank.Common));
->>>>>>> 45647807db5c2f8efec21abc70a700949550b749
             }
         }
 
         internal void PrintColony()
         {
-            Console.WriteLine("\n---------------------------------------------\n");
-            Console.WriteLine($"Колония: {Name}");
-            Console.WriteLine($"Муравьи: {Workers.Count + Warriors.Count + Specials.Count}\nРабочие: {Workers.Count}; Воины: {Warriors.Count}; Особенных: {Specials.Count}");
-            Console.WriteLine($"\nКоролева: {Queen.Name}");
-            Console.WriteLine($"\nРесурсы: Ветки: {Branches}; Листья: {Leaves}; Росинки: {Dewdrops}; Камни: {Stones}");
-            Console.WriteLine("\n---------------------------------------------\n");
+            Console.WriteLine($"\nКолония: {Name}");
+            Console.WriteLine($"1) Королева: {Queen.Name}, Личинок: {Larvas.Count}");
+            Console.WriteLine($"2) Ресурсы: Ветки: {Branches}; Листья: {Leaves}; Росинки: {Dewdrops}; Камни: {Stones}");
+            Console.WriteLine($"3) Муравьи: {Workers.Count + Warriors.Count + Specials.Count}\n\tРабочие: {Workers.Count}; Воины: {Warriors.Count}; Особенных: {Specials.Count}\n");
         }
     }
 }

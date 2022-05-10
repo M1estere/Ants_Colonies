@@ -25,7 +25,10 @@ namespace AntsColonies
 
         public void PrintStack()
         {
-            Console.WriteLine($"\nРесурсы в {Name}: {Branches} веток, {Leaves} листьев, {Dewdrops} росинок, {Stones} камней.\n");
+            if (Branches == 0 && Leaves == 0 && Dewdrops == 0 && Stones == 0)
+                Console.WriteLine($"Куча {Name}: Истощена");
+            else
+               Console.WriteLine($"Куча {Name}: Веток: {Branches}; Листьев: {Leaves}; Росинок: {Dewdrops}; Камней: {Stones}");
         }
     }
 }

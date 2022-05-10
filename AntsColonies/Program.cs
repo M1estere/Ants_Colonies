@@ -4,20 +4,15 @@ using System.Linq;
 
 namespace AntsColonies
 {
-<<<<<<< HEAD
-=======
-    
->>>>>>> 45647807db5c2f8efec21abc70a700949550b749
     static class Program
     {
-        private static int _daysBeforeDrying = 15;
+        internal static int DaysBeforeDrying = 15;
 
-        private static int _currentDays = 1;
+        internal static int CurrentDays = 1;
         
         private static void BeginPrint()
         {
-            Console.WriteLine($"\nДо засухи: {_daysBeforeDrying} дней");
-            Console.WriteLine("\n---------------------------------------------\n");
+            Console.WriteLine($"\nДо засухи: {DaysBeforeDrying} дней\n");
         }
         
         private static void Main(string[] args)
@@ -26,15 +21,19 @@ namespace AntsColonies
             
             DayManager _dayManager = new DayManager();
             
-            while (_currentDays <= _daysBeforeDrying)
+            while (CurrentDays <= DaysBeforeDrying)
             {
-                Console.WriteLine($"------------------- День: {_currentDays} -------------------");
+                Console.WriteLine($"------------------- День: {CurrentDays} (осталось {DaysBeforeDrying - CurrentDays} дней) -------------------\n");
+                
                 _dayManager.Day();
-                _currentDays++;
-                if (_currentDays >= _daysBeforeDrying)
+                
+                CurrentDays++;
+                
+                if (CurrentDays > DaysBeforeDrying)
                     Console.WriteLine("\nНажмите Enter, чтобы закончить");
                 else
                     Console.WriteLine("\nНажмите Enter, чтобы начать следующий день");
+                
                 Console.ReadLine();
             }
 
@@ -43,15 +42,17 @@ namespace AntsColonies
 
         private static void FinishSimulation()
         {
+            Console.WriteLine("------------------- Результаты -------------------");
             List<int> coloniesResources = new List<int>();
             
             foreach (Colony colony in Globals.Colonies)
             {
+                colony.PrintColony();
                 int resources = colony.Branches + colony.Dewdrops + colony.Leaves + colony.Stones;
                 coloniesResources.Add(resources);
             }
 
-            Console.WriteLine($"------------------{Globals.Colonies[coloniesResources.IndexOf(coloniesResources.Max())].Name} выживают!!!!------------------");
+            Console.WriteLine($"------------------ Колония {Globals.Colonies[coloniesResources.IndexOf(coloniesResources.Max())].Name} выживает! ------------------");
         }
     }
 }
