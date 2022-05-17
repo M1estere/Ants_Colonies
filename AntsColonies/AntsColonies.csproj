@@ -40,22 +40,23 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="AntWarrior.cs" />
-        <Compile Include="AntWorker.cs" />
-        <Compile Include="Colony.cs" />
-        <Compile Include="Creature.cs" />
-        <Compile Include="CreatureRank.cs" />
-        <Compile Include="DayManager.cs" />
+        <Compile Include="Creatures\AntWarrior.cs" />
+        <Compile Include="Creatures\AntWorker.cs" />
+        <Compile Include="Creatures\Creature.cs" />
+        <Compile Include="Creatures\CreatureRank.cs" />
+        <Compile Include="Creatures\Jerboa.cs" />
+        <Compile Include="Creatures\Larva.cs" />
+        <Compile Include="Creatures\Queen.cs" />
+        <Compile Include="Creatures\SpecialInsect.cs" />
+        <Compile Include="Day Control\DayManager.cs" />
+        <Compile Include="Day Control\Program.cs" />
         <Compile Include="Globals.cs" />
-        <Compile Include="Hike.cs" />
-        <Compile Include="Larva.cs" />
-        <Compile Include="Program.cs" />
+        <Compile Include="Hike\Hike.cs" />
+        <Compile Include="Hike\Squad.cs" />
+        <Compile Include="Hike\SquadCreator.cs" />
+        <Compile Include="Others\Colony.cs" />
+        <Compile Include="Others\Stack.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Queen.cs" />
-        <Compile Include="SpecialInsect.cs" />
-        <Compile Include="Squad.cs" />
-        <Compile Include="SquadCreator.cs" />
-        <Compile Include="Stack.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

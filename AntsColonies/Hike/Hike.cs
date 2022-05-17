@@ -1,39 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AntsColonies
 {
     internal class Hike
     {
-        private bool _noWinner = false;
+        private bool _noWinner;
 
-        private bool _metFriend = false;
+        private bool _metFriend;
         
-        internal void Start(List<Stack> stacks)
+        internal static void Start(List<Stack> stacks)
         {
-            foreach (Colony colony in Globals.Colonies)
+            foreach (var colony in Globals.Colonies)
             {
-                SquadCreator squadCreator = new SquadCreator();
-
-                squadCreator.FillSquad(colony, stacks);
+                SquadCreator.FillSquad(colony, stacks);
             }
         }
 
         internal void StartBattle(List<Stack> stacks) // starting battle if more than 1 colony on stack
         {
-            foreach (Stack stack in Globals.Stacks)
+            foreach (var stack in Globals.Stacks)
             {
-                if (stack.CurrentSquads.Count >= 2)
+                switch (stack.CurrentSquads.Count)
                 {
-                    Battle(stack, stack.CurrentSquads);
-                } else
-                {
-                    if (stack.CurrentSquads.Count > 0)
-                    {
+                    case >= 2:
+                        Battle(stack, stack.CurrentSquads);
+                        break;
+                    case > 0:
                         Console.WriteLine($"\nНа куче {stack.Name} только одна колония\n");
                         CollectResources(stack.CurrentSquads[0], stack);
-                        FinishHike(stack, stack.CurrentSquads);
-                    }
+                        FinishHike(stack.CurrentSquads);
+                        break;
                 }
             }
         }
@@ -46,9 +44,9 @@ namespace AntsColonies
             bool finished = false; // check if battle is finished
 
             int tempCount = 0;
-            for (int i = 0; i < squadsHere.Count; i++)
+            foreach (var squad in squadsHere)
             {
-                if (squadsHere[i].StackWarriors.Count == 0)
+                if (squad.StackWarriors.Count == 0)
                 {
                     tempCount++;
                 }
@@ -64,39 +62,39 @@ namespace AntsColonies
             {
                 List<Creature> aliveCreatures = new List<Creature>(); // reseting alive creatures
                 aliveCreatures.Clear();
-                
-                List<Creature> withSpecials = new List<Creature>();
-                
-                foreach (Squad squad in squadsHere)
+
+                foreach (var squad in squadsHere)
                 {
-                    foreach (AntWarrior warrior in squad.StackWarriors) // filling warriors that are not dead
+                    foreach (var warrior in squad.StackWarriors) // filling warriors that are not dead
                     {
                         if (warrior.Health > 0)
                             aliveCreatures.Add(warrior);
                     }
 
-                    foreach (AntWorker worker in squad.StackWorkers) // filling with alive workers
+                    foreach (var worker in squad.StackWorkers) // filling with alive workers
                     {
                         if (worker.Health > 0)
                             aliveCreatures.Add(worker);
                     }
                 }
 
-                withSpecials = aliveCreatures;
+                List<Creature> withSpecials = aliveCreatures;
                 
-                foreach (Squad squad in squadsHere) // filling all alive creatures
+                foreach (var squad in squadsHere) // filling all alive creatures
                 {
-                    foreach (SpecialInsect special in squad.StackSpecials) // filling specials that are not dead
+                    foreach (var special in squad.StackSpecials) // filling specials that are not dead
                     {
                         if (special.Health > 0)
                             withSpecials.Add(special);
                     }
                 }
                 
-                for (int i = 0; i < squadsHere.Count; i++) // giving every warrior its own random target
+                List<Squad> sortedSquads = squadsHere.OrderBy(_ => Globals.Random.Next()).ToList(); // to randomise attack order
+                
+                foreach (var squad in sortedSquads)
                 {
                     int beatCount = 0;
-                    foreach (AntWarrior warrior in squadsHere[i].StackWarriors) // attack
+                    foreach (var warrior in squad.StackWarriors) // attack
                     {
                         if (aliveCreatures.Count > 1)
                         {
@@ -105,7 +103,7 @@ namespace AntsColonies
                                 if (warrior.Rank == WarriorRank.Elite && beatCount == 0)
                                     warrior.CanOneShot = true;
                                 
-                                Creature creature = FindTarget(withSpecials, aliveCreatures, squadsHere[i], warrior);
+                                Creature creature = FindTarget(withSpecials, aliveCreatures, squad, warrior);
                                 if (creature != null)
                                     warrior.Attack(creature);
                             }
@@ -116,9 +114,9 @@ namespace AntsColonies
                 }
 
                 squadsHere = CheckUnits(squadsHere);
-                for (int i = 0; i < squadsHere.Count; i++)
+                foreach (var squad in squadsHere)
                 {
-                    if (squadsHere[i].StackWarriors.Count == 0) // one army loses
+                    if (squad.StackWarriors.Count == 0) // one army loses
                     {
                         finished = true;
                     }
@@ -130,12 +128,12 @@ namespace AntsColonies
                 if (_metFriend) finished = true;
             }
             FindWinner(stack, squadsHere);
-            FinishHike(stack, squadsHere);
+            FinishHike(squadsHere);
         }
 
         private Creature FindTarget(List<Creature> withSpecials, List<Creature> creatures, Squad squad, AntWarrior warrior)
         {
-            if (warrior.Rank == WarriorRank.Advanced || warrior.Rank == WarriorRank.Elite) // могут атаковать особое
+            if (warrior.Rank is WarriorRank.Advanced or WarriorRank.Elite) // могут атаковать особое
             {
                 creatures = withSpecials; // выбирают цель вообще из всех
             }
@@ -201,9 +199,9 @@ namespace AntsColonies
             return creature;
         }
         
-        private List<Squad> CheckUnits(List<Squad> squads) // check dead units in all squads
+        private static List<Squad> CheckUnits(List<Squad> squads) // check dead units in all squads
         {
-            foreach (Squad squad in squads)
+            foreach (var squad in squads)
             {
                 for (int i = 0; i < squad.StackWarriors.Count; i++) // remove dead warriors
                 {
@@ -232,39 +230,34 @@ namespace AntsColonies
             if (_noWinner)
             {
                 Console.WriteLine($"На куче {stack.Name} в {squads.Count} отрядах нет воинов -> они разошлись мирно!");
-                foreach (Squad squad in squads)
+                foreach (var squad in squads)
                 {
                     CollectResources(squad, stack);
                 }
 
                 return;
             }
-            foreach (Squad squad in squads)
+
+            foreach (var squad in squads.Where(squad => squad.StackWarriors.Count > 0))
             {
-                if (squad.StackWarriors.Count > 0)
-                {
-                    Console.WriteLine($"На куче {stack.Name} победили {squad.SquadName}, остались в живых: {squad.StackWorkers.Count} " +
-                                      $"рабочих; {squad.StackWarriors.Count} воинов; {squad.StackSpecials.Count} особенных.");
-                    CollectResources(squad, stack);
-                }
+                Console.WriteLine($"На куче {stack.Name} победили {squad.SquadName}, остались в живых: {squad.StackWorkers.Count} " +
+                                  $"рабочих; {squad.StackWarriors.Count} воинов; {squad.StackSpecials.Count} особенных.");
+                CollectResources(squad, stack);
             }
         }
 
-        private void FinishHike(Stack stack, List<Squad> squads) // going home
+        private static void FinishHike(List<Squad> squads) // going home
         {
-            foreach (Colony colony in Globals.Colonies)
+            foreach (var colony in Globals.Colonies)
             {
-                foreach (Squad squad in squads)
+                foreach (var squad in squads.Where(squad => squad.SquadName == colony.Name))
                 {
-                    if (squad.SquadName == colony.Name) // colony's squad
-                    {
-                        Finish(squad, colony);
-                    }
+                    Finish(squad, colony);
                 }
             }
         }
 
-        private void Finish(Squad squad, Colony colony) // remove from squad to colony
+        private static void Finish(Squad squad, Colony colony) // remove from squad to colony
         {
             // moving resources from squad to colony
             colony.NewResources[0] += squad.Branches;
@@ -283,44 +276,43 @@ namespace AntsColonies
             colony.Stones += squad.Stones;
             squad.Stones = 0;
             
-            for (int i = 0; i < squad.StackWarriors.Count; i++)
+            foreach (var warrior in squad.StackWarriors)
             {
-                colony.Warriors.Add(squad.StackWarriors[i]);
+                colony.Warriors.Add(warrior);
             }
 
             squad.StackWarriors.Clear();
             
-            for (int i = 0; i < squad.StackWorkers.Count; i++)
+            foreach (var worker in squad.StackWorkers)
             {
-                colony.Workers.Add(squad.StackWorkers[i]);
+                colony.Workers.Add(worker);
             }
 
             squad.StackWorkers.Clear();
 
-            if (squad.StackSpecials.Count > 0)
+            if (squad.StackSpecials.Count <= 0) return;
+            
+            if (squad.StackSpecials[0].Rank == SpecialInsectRank.Hardworker)
             {
-                if (squad.StackSpecials[0].Rank == SpecialInsectRank.Hardworker)
+                int lostOrNot = Globals.Random.Next(0, 7);
+                if (lostOrNot > 5) // потерялся
                 {
-                    int lostOrNot = Globals.Random.Next(0, 7);
-                    if (lostOrNot > 5) // потерялся
-                    {
-                        squad.StackSpecials.Clear();
-                    } else // дошел
-                    {
-                        colony.Specials.Add(squad.StackSpecials[0]);
-                        squad.StackSpecials.Clear();
-                    }
-                } else // не теряется
+                    squad.StackSpecials.Clear();
+                } else // дошел
                 {
                     colony.Specials.Add(squad.StackSpecials[0]);
                     squad.StackSpecials.Clear();
                 }
+            } else // не теряется
+            {
+                colony.Specials.Add(squad.StackSpecials[0]);
+                squad.StackSpecials.Clear();
             }
         }
 
-        private void CollectResources(Squad squad, Stack stack)
+        private static void CollectResources(Squad squad, Stack stack)
         {
-            foreach (AntWorker worker in squad.StackWorkers)
+            foreach (var worker in squad.StackWorkers)
             {
                 worker.Collect(squad, stack);
             }

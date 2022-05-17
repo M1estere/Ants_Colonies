@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AntsColonies
 {
     internal class DayManager
     {
-        internal List<Stack> Stacks = new List<Stack>();
-        
-        internal Hike hike = new Hike();
+        private readonly Hike _hike = new Hike();
 
-        private Jerboa jerboa = new Jerboa(Program.DaysBeforeDrying);
+        private readonly Jerboa _jerboa = new Jerboa(Program.DaysBeforeDrying);
         
         internal DayManager()
         {
@@ -18,12 +17,12 @@ namespace AntsColonies
         
         protected internal void Day()
         {
-            foreach (Stack stack in Globals.Stacks)
+            foreach (var stack in Globals.Stacks)
             {
                 stack.CurrentSquads.Clear();
             }
             
-            foreach (Colony colony in Globals.Colonies)
+            foreach (var colony in Globals.Colonies)
             {
                 colony.OldPopulation[0] = colony.Workers.Count;
                 colony.OldPopulation[1] = colony.Warriors.Count;
@@ -37,31 +36,31 @@ namespace AntsColonies
 
             Console.WriteLine();
             
-            foreach (Stack stack in Globals.Stacks)
+            foreach (var stack in Globals.Stacks)
             {
                 stack.PrintStack();
             }
 
             Console.WriteLine();
             
-            hike.Start(Globals.Stacks);
+            Hike.Start(Globals.Stacks);
             
             Console.WriteLine("---------- Начало Дня ----------");
             Console.WriteLine();
             
-            foreach (Stack stack in Globals.Stacks)
+            foreach (var stack in Globals.Stacks)
             {
-                foreach (Squad squad in stack.CurrentSquads)
+                foreach (var squad in stack.CurrentSquads)
                 {
-                    Console.WriteLine($"С колонии {squad.SquadName} отправились на кучу {stack.Name}: {squad.StackWarriors.Count} воинов; {squad.StackWorkers.Count} рабочих; {squad.StackSpecials.Count} особенных");
+                    Console.WriteLine($"С колонии {squad.SquadName} отправились на кучу {stack.Name}: {squad.StackWorkers.Count} рабочих; {squad.StackWarriors.Count} воинов; {squad.StackSpecials.Count} особенных");
                 }
             }
             Console.WriteLine();
             
-            hike.StartBattle(Globals.Stacks);
+            _hike.StartBattle(Globals.Stacks);
 
             Console.WriteLine("\n---------- Конец Дня ----------\n");
-            
+
             for (int j = 0; j < Globals.Colonies.Count; j++)
             {
                 for (int i = 0; i < Globals.Colonies[j].Larvas.Count; i++)
@@ -70,7 +69,7 @@ namespace AntsColonies
                 }
             }
             
-            foreach (Colony colony in Globals.Colonies)
+            foreach (var colony in Globals.Colonies)
             {
                 Console.WriteLine($"В Колонию {colony.Name} вернулись:");
                 Console.WriteLine($"\tРабочих: {colony.Workers.Count - colony.NewWorkers}; \n\tВоинов: {colony.Warriors.Count - colony.NewWarriors}; \n\tОсобенных: {colony.Specials.Count}.");
@@ -88,71 +87,62 @@ namespace AntsColonies
                 Console.WriteLine();
             }
             
-            if (jerboa.FirstDay == Program.CurrentDays)
-                Console.WriteLine("Глобальный эффект: Тушканчик c эффектом съедает всех муравьев рабочих в один день (в течение 8 дней)");
+            if (_jerboa.FirstDay == Program.CurrentDays)
+                Console.WriteLine("Глобальный эффект: Тушканчик съест всех муравьев рабочих в один из следующих 8 дней.");
 
+
+            if (Program.CurrentDays != _jerboa.RandomDay) return;
             
-            if (Program.CurrentDays == jerboa.RandomDay)
-            {
-                Console.WriteLine("Нападает Тушканчик!");
-                Console.WriteLine("Рабочие всех колоний погибают");
-                jerboa.Action();
-            }
+            Console.WriteLine("Нападает Тушканчик!");
+            Console.WriteLine("Рабочие всех колоний погибают");
+            Jerboa.Action();
         }
 
         #region Initialization
-        protected internal void InitGame()
+        private static void InitGame()
         {
             InitStacks();
             
             // init first colony (red)
-            Colony _redColony = new Colony("Красные", 18, 9);
-            Queen Isabella = new Queen("Изабелла", 23, 8, 26, 3, 4, 3, 4, true, _redColony);
+            Colony redColony = new Colony("Красные", 18, 9);
+            Queen isabella = new Queen("Изабелла", 23, 8, 26, 3, 4, 3, 4, true, redColony);
 
-            _redColony.Queen = Isabella;
+            redColony.Queen = isabella;
 
-            _redColony.Specials.Add(new SpecialInsect("Оса", SpecialInsectRank.Hardworker, Isabella, 0, 0, 0));
+            redColony.Specials.Add(new SpecialInsect(SpecialInsectRank.Hardworker, isabella, 0, 0, 0));
             
-            InitColony(_redColony, WorkerRank.ElderOne, WorkerRank.Elite, WorkerRank.Legend, WarriorRank.Legend, WarriorRank.Elite, WarriorRank.Elite);
-            //_redColony.PrintColony();
-            
+            InitColony(redColony, WorkerRank.ElderOne, WorkerRank.Elite, WorkerRank.Legend, WarriorRank.Legend, WarriorRank.Elite, WarriorRank.Elite);
+
             // init second colony (orange)
-            Colony _orangeColony = new Colony("Рыжие", 18, 6);
-            Queen Kleopatra = new Queen("Клеопатра", 21, 6, 21, 1, 4, 3, 5, true, _orangeColony);
+            Colony orangeColony = new Colony("Рыжие", 18, 6);
+            Queen kleopatra = new Queen("Клеопатра", 21, 6, 21, 1, 4, 3, 5, true, orangeColony);
 
-            _orangeColony.Queen = Kleopatra;
+            orangeColony.Queen = kleopatra;
 
-            _orangeColony.Specials.Add(new SpecialInsect("Толстоножка", SpecialInsectRank.Lazy, Kleopatra, 0, 0, 0));
+            orangeColony.Specials.Add(new SpecialInsect(SpecialInsectRank.Lazy, kleopatra, 0, 0, 0));
             
-            InitColony(_orangeColony, WorkerRank.ElderTwo, WorkerRank.Legend, WorkerRank.AdvancedForget, WarriorRank.Elder, WarriorRank.Elder, WarriorRank.Advanced);
-            //_orangeColony.PrintColony();
-            
-            Globals.Colonies.Add(_redColony);
-            Globals.Colonies.Add(_orangeColony);
+            InitColony(orangeColony, WorkerRank.ElderTwo, WorkerRank.Legend, WorkerRank.AdvancedForget, WarriorRank.Elder, WarriorRank.Elder, WarriorRank.Advanced);
+
+            Globals.Colonies.Add(redColony);
+            Globals.Colonies.Add(orangeColony);
         }
 
-        private void InitStacks()
+        private static void InitStacks()
         { 
-            Stack _firstStack = new Stack("1", 25, 0, 0, 0);
-            Stack _secondStack = new Stack("2", 16, 0, 0, 0);
-            Stack _thirdStack = new Stack("3", 12, 42, 22, 0);
-            Stack _fourthStack = new Stack("4", 26, 36, 20, 0);
-            Stack _fifthStack = new Stack("5", 24, 0, 0, 0);
+            Stack firstStack = new Stack("1", 25, 0, 0, 0);
+            Stack secondStack = new Stack("2", 16, 0, 0, 0);
+            Stack thirdStack = new Stack("3", 12, 42, 22, 0);
+            Stack fourthStack = new Stack("4", 26, 36, 20, 0);
+            Stack fifthStack = new Stack("5", 24, 0, 0, 0);
 
-            Globals.Stacks.Add(_firstStack);
-            Globals.Stacks.Add(_secondStack);
-            Globals.Stacks.Add(_thirdStack);
-            Globals.Stacks.Add(_fourthStack);
-            Globals.Stacks.Add(_fifthStack);
-            
-            Stacks.Add(_firstStack);
-            Stacks.Add(_secondStack);
-            Stacks.Add(_thirdStack);
-            Stacks.Add(_fourthStack);
-            Stacks.Add(_fifthStack);
+            Globals.Stacks.Add(firstStack);
+            Globals.Stacks.Add(secondStack);
+            Globals.Stacks.Add(thirdStack);
+            Globals.Stacks.Add(fourthStack);
+            Globals.Stacks.Add(fifthStack);
         }
 
-        private void InitColony(Colony colony, WorkerRank firstWorker, WorkerRank secondWorker, WorkerRank thirdWorker, WarriorRank firstWarrior, WarriorRank secondWarrior, WarriorRank thirdWarrior)
+        private static void InitColony(Colony colony, WorkerRank firstWorker, WorkerRank secondWorker, WorkerRank thirdWorker, WarriorRank firstWarrior, WarriorRank secondWarrior, WarriorRank thirdWarrior)
         {
             colony.Workers.Add(new AntWorker(2, 1, 0, colony.Queen, firstWorker));
             colony.Workers.Add(new AntWorker(8, 4, 0, colony.Queen, secondWorker));

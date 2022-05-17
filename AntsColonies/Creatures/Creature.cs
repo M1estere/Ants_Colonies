@@ -1,10 +1,9 @@
-﻿using System;
-
-namespace AntsColonies
+﻿namespace AntsColonies
 {
     public class Creature
     {
         internal Queen Queen;
+        
         internal int Health;
         internal int Protection;
         internal int Damage;
@@ -35,31 +34,5 @@ namespace AntsColonies
         }
 
         internal virtual void GetInfo() { }
-    }
-
-    public class Jerboa
-    {
-        internal int FirstDay;
-        internal int LastDay;
-
-        internal int RandomDay;
-        
-        internal Jerboa(int allDays)
-        {
-            FirstDay = Globals.Random.Next(1, allDays - 7); // день начала
-            LastDay = FirstDay + 8;
-            
-            RandomDay = Globals.Random.Next(FirstDay, LastDay + 1); // когда нападет тушканчик
-            
-            //Console.WriteLine("First Day: " + FirstDay);
-        }
-
-        internal void Action()
-        {
-            foreach (Colony colony in Globals.Colonies)
-            {
-                colony.Workers.Clear();
-            }
-        }
     }
 }

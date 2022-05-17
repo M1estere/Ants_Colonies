@@ -10,27 +10,27 @@ namespace AntsColonies
             Warrior,
             Queen,
         }
-        
-        internal int GrowthCycle;
 
-        internal LarvaType Type;
+        private int _growthCycle;
 
-        internal Queen Queen;
+        private readonly LarvaType _type;
+
+        private readonly Queen _queen;
         
-        internal Larva(int growthCycle, LarvaType type, Queen queen) : base()
+        internal Larva(int growthCycle, LarvaType type, Queen queen)
         {
-            GrowthCycle = growthCycle;
-            Type = type;
-            Queen = queen;
+            _growthCycle = growthCycle;
+            _type = type;
+            _queen = queen;
         }
 
         internal void DecreaseGrowthDays()
         {
-            if (GrowthCycle > 0)
+            if (_growthCycle > 0)
             {
-                GrowthCycle--;
+                _growthCycle--;
             } 
-            if (GrowthCycle <= 0)
+            if (_growthCycle <= 0)
             {
                 CreateAnt();
             }
@@ -38,41 +38,41 @@ namespace AntsColonies
         
         private void CreateAnt()
         {
-            switch (Type)
+            switch (_type)
             {
                 case LarvaType.Worker:
                     Array valuesWorker = WorkerRank.GetValues(typeof(WorkerRank));
                     WorkerRank randomWorkerRank = (WorkerRank)valuesWorker.GetValue(Globals.Random.Next(valuesWorker.Length));
                     
-                    Queen.Colony.Workers.Add(new AntWorker(0, 0, 0, Queen, randomWorkerRank));
-                    //Console.WriteLine($"В колонии {Queen.Colony.Name} появился рабочий {randomWorkerRank}!");
-                    Queen.Colony.Larvas.Remove(this);
+                    _queen.Colony.Workers.Add(new AntWorker(0, 0, 0, _queen, randomWorkerRank));
+                    _queen.Colony.Larvas.Remove(this);
 
-                    Queen.Colony.NewWorkers++;
+                    _queen.Colony.NewWorkers++;
                     
                     break;
                 case LarvaType.Warrior:
                     Array valuesWarrior = WarriorRank.GetValues(typeof(WarriorRank));
                     WarriorRank randomWarriorRank = (WarriorRank)valuesWarrior.GetValue(Globals.Random.Next(valuesWarrior.Length));
                     
-                    Queen.Colony.Warriors.Add(new AntWarrior(0, 0, 0, Queen, randomWarriorRank));
-                    //Console.WriteLine($"В колонии {Queen.Colony.Name} появился воин {randomWarriorRank}!");
-                    Queen.Colony.Larvas.Remove(this);
+                    _queen.Colony.Warriors.Add(new AntWarrior(0, 0, 0, _queen, randomWarriorRank));
+                    _queen.Colony.Larvas.Remove(this);
 
-                    Queen.Colony.NewWarriors++;
+                    _queen.Colony.NewWarriors++;
                     
                     break;
                 case LarvaType.Queen:
                     string name = Globals.QueenNames[Globals.Random.Next(0, Globals.QueenNames.Count)];
-                    Queen queen = new Queen(name, Queen.Health, Queen.Protection, Queen.Damage, 
+                    Queen queen = new Queen(name, _queen.Health, _queen.Protection, _queen.Damage, 
                         4, 6, 3, 4, false);
                     
                     Globals.QueenNames.Remove(name);
                     
-                    Queen.Colony.Larvas.Remove(this);
+                    _queen.Colony.Larvas.Remove(this);
                     
                     HandleQueen(queen);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -95,15 +95,15 @@ namespace AntsColonies
         private void CreateColony(Queen queen)
         {
             string colonyName = Globals.ColoniesNames[Globals.Random.Next(0, Globals.ColoniesNames.Count)];
-            Console.WriteLine($"Королева {queen.Name} создает колонию {colonyName} родственную к {Queen.Colony.Name}");
+            Console.WriteLine($"Королева {queen.Name} создает колонию {colonyName} родственную к {_queen.Colony.Name}");
             Console.WriteLine();
             Colony colony = new Colony(colonyName, 0, 0);
             
             colony.Queen = queen;
             queen.Colony = colony;
 
-            queen.FriendQueens.Add(Queen);
-            Queen.FriendQueens.Add(queen);
+            queen.FriendQueens.Add(_queen);
+            _queen.FriendQueens.Add(queen);
             
             Globals.Colonies.Add(colony);
             Globals.ColoniesNames.Remove(colonyName);

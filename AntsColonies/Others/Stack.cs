@@ -5,7 +5,7 @@ namespace AntsColonies
 {
     internal class Stack
     {
-        internal string Name;
+        internal readonly string Name;
 
         internal List<Squad> CurrentSquads = new List<Squad>();
 

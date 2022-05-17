@@ -5,15 +5,15 @@ namespace AntsColonies
 {
     public class Colony
     {
-        internal string Name;
+        internal readonly string Name;
 
         internal Queen Queen;
 
-        internal static int WorkersAmount;
-        internal static int WarriorsAmount;
+        private static int _workersAmount;
+        private static int _warriorsAmount;
 
-        internal List<AntWorker> Workers = new List<AntWorker>();
-        internal List<AntWarrior> Warriors = new List<AntWarrior>();
+        internal List<AntWorker> Workers;
+        internal List<AntWarrior> Warriors;
         internal List<SpecialInsect> Specials = new List<SpecialInsect>();
 
         internal int Branches;
@@ -34,8 +34,8 @@ namespace AntsColonies
         {
             Name = name;
             
-            WorkersAmount = workersAmount;
-            WarriorsAmount = warriorsAmount;
+            _workersAmount = workersAmount;
+            _warriorsAmount = warriorsAmount;
             
             Workers = new List<AntWorker>();
             Warriors = new List<AntWarrior>();
@@ -45,12 +45,12 @@ namespace AntsColonies
 
         private void CreateCommonAnts(int specialWorkers, int specialWarriors)
         {
-            for (int i = 0; i < (WorkersAmount - specialWorkers); i++)
+            for (int i = 0; i < (_workersAmount - specialWorkers); i++)
             {
                 Workers.Add(new AntWorker(1,0,1, Queen, WorkerRank.Common));
             }
 
-            for (int i = 0; i < (WarriorsAmount - specialWarriors); i++)
+            for (int i = 0; i < (_warriorsAmount - specialWarriors); i++)
             {
                 Warriors.Add(new AntWarrior(1, 0, 1, Queen, WarriorRank.Common));
             }

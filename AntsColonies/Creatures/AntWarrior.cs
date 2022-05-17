@@ -10,16 +10,16 @@ namespace AntsColonies
         internal int AntsToAttack;
 
         private int _maxBiteCount;
-        private int _currentBiteCount = 0;
+        private int _currentBiteCount;
 
         internal bool CanOneShot = true;
         
-        public AntWarrior(int _health, int _protection, int _damage, Queen _queen, WarriorRank _rank) : base(_queen, _health, _protection, _damage)
+        public AntWarrior(int health, int protection, int damage, Queen queen, WarriorRank rank) : base(queen, health, protection, damage)
         {
-            Queen = _queen;
-            Rank = _rank;
+            Queen = queen;
+            Rank = rank;
             
-            switch (_rank)
+            switch (rank)
             {
                 case WarriorRank.Common:
                     Health = 1;
@@ -57,7 +57,7 @@ namespace AntsColonies
                     _maxBiteCount = 1;
                     break;
                 default:
-                    break;
+                    throw new ArgumentOutOfRangeException(nameof(rank), rank, null);
             }
 
             Health += Protection;
@@ -86,9 +86,9 @@ namespace AntsColonies
                 } else if (enemy is AntWarrior)
                 {
                     Fight(enemy); // наносит урон
-                } else if (enemy is SpecialInsect)
+                } else if (enemy is SpecialInsect insect)
                 {
-                    FightSpecial((SpecialInsect)enemy);
+                    FightSpecial(insect);
                 }
             }
             _currentBiteCount = 0;
@@ -96,25 +96,24 @@ namespace AntsColonies
 
         private void Fight(Creature enemy)
         {
-            if (Health > 0 && enemy.Health > 0)
-            {
-                int randomPunch = Globals.Random.Next(0, 2);
+            if (Health <= 0 || enemy.Health <= 0) return;
+            
+            int randomPunch = Globals.Random.Next(0, 2);
 
-                if (randomPunch % 2 == 0)
-                {
-                    if (Health > 0)
-                        enemy.Health -= Damage;
+            if (randomPunch % 2 == 0)
+            {
+                if (Health > 0)
+                    enemy.Health -= Damage;
                     
-                    if (enemy.Health > 0)
-                        Health -= enemy.Damage;
-                } else
-                {
-                    if (enemy.Health > 0)
-                        Health -= enemy.Damage;
+                if (enemy.Health > 0)
+                    Health -= enemy.Damage;
+            } else
+            {
+                if (enemy.Health > 0)
+                    Health -= enemy.Damage;
                     
-                    if (Health > 0)
-                        enemy.Health -= Damage;
-                }
+                if (Health > 0)
+                    enemy.Health -= Damage;
             }
         }
 

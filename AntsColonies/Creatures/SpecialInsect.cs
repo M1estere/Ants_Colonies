@@ -1,14 +1,13 @@
-﻿namespace AntsColonies
+﻿using System;
+
+namespace AntsColonies
 {
     internal class SpecialInsect : Creature
     {
-        internal SpecialInsectRank Rank;
-
-        internal string Name;
+        internal readonly SpecialInsectRank Rank;
         
-        public SpecialInsect(string name, SpecialInsectRank rank, Queen queen, int _health, int _protection, int _damage) : base(queen, _health, _protection, _damage/*, _canTake*/)
+        public SpecialInsect(SpecialInsectRank rank, Queen queen, int health, int protection, int damage) : base(queen, health, protection, damage)
         {
-            Name = name;
             Rank = rank;
 
             Damage = 0;
@@ -23,19 +22,19 @@
                     Health = 27;
                     Protection = 5;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(rank), rank, null);
             }
         }
 
         internal void Collect(Squad squad, Stack stack)
         {
-            if (Rank == SpecialInsectRank.Hardworker)
-            {
-                if (stack.Dewdrops > 0)
-                {
-                    stack.Dewdrops--;
-                    squad.Dewdrops++;
-                }
-            }
+            if (Rank != SpecialInsectRank.Hardworker) return;
+            
+            if (stack.Dewdrops <= 0) return;
+            
+            stack.Dewdrops--;
+            squad.Dewdrops++;
         }
     }
 }

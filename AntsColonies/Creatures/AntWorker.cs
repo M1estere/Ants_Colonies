@@ -4,13 +4,13 @@ namespace AntsColonies
 {
     public class AntWorker : Creature
     {
-        internal WorkerRank Rank;
+        private readonly WorkerRank _rank;
 
-        public AntWorker(int _health, int _protection, int _damage, Queen _queen, WorkerRank _rank) : base(_queen, _health, _protection, _damage)
+        public AntWorker(int health, int protection, int damage, Queen queen, WorkerRank rank) : base(queen, health, protection, damage)
         {
-            Queen = _queen;
-            Rank = _rank;
-            switch (_rank)
+            Queen = queen;
+            _rank = rank;
+            switch (rank)
             {
                 case WorkerRank.Common:
                     Health = 1;
@@ -41,7 +41,7 @@ namespace AntsColonies
                     Protection = 6;
                     break;
                 default:
-                    break;
+                    throw new ArgumentOutOfRangeException(nameof(rank), rank, null);
             }
 
             Damage = 0;
@@ -50,7 +50,7 @@ namespace AntsColonies
 
         internal void Collect(Squad squad, Stack stack)
         {
-            switch (Rank)
+            switch (_rank)
             {
                 case WorkerRank.Common:
                     int random = Globals.Random.Next(0, 4);
@@ -83,8 +83,6 @@ namespace AntsColonies
                                 stack.Stones--;
                                 squad.Stones++;
                             }
-                            break;
-                        default:
                             break;
                     }
                     break;
@@ -178,20 +176,17 @@ namespace AntsColonies
                                 squad.Leaves++;
                             }
                         }
-                    } else // забыл
-                    {
-                        return;
                     }
                     break;
                 default:
-                    break;
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
         internal override void GetInfo()
         {
             Console.WriteLine("\n---------------------------------------------\n");
-            Console.WriteLine($"Муравей - Рабочий ({Rank})\nЗдоровье: {Health}; Защита: {Protection}; Урон: {Damage}");
+            Console.WriteLine($"Муравей - Рабочий ({_rank})\nЗдоровье: {Health}; Защита: {Protection}; Урон: {Damage}");
             Console.WriteLine("\n---------------------------------------------\n");
         }
         
