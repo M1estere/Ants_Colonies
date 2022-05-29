@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace AntsColonies
 {
@@ -144,13 +143,8 @@ namespace AntsColonies
 
         private static void InitColony(Colony colony, WorkerRank firstWorker, WorkerRank secondWorker, WorkerRank thirdWorker, WarriorRank firstWarrior, WarriorRank secondWarrior, WarriorRank thirdWarrior)
         {
-            colony.Workers.Add(new AntWorker(2, 1, 0, colony.Queen, firstWorker));
-            colony.Workers.Add(new AntWorker(8, 4, 0, colony.Queen, secondWorker));
-            colony.Workers.Add(new AntWorker(10, 6, 0, colony.Queen, thirdWorker));
-
-            colony.Warriors.Add(new AntWarrior(0, 0, 0, colony.Queen, firstWarrior));
-            colony.Warriors.Add(new AntWarrior(0, 0, 0, colony.Queen, secondWarrior));
-            colony.Warriors.Add(new AntWarrior(0, 0, 0, colony.Queen, thirdWarrior));
+            colony.CreateAnts(new List<WorkerRank>() {firstWorker, secondWorker, thirdWorker}, 
+                new List<WarriorRank>() {firstWarrior, secondWarrior, thirdWarrior});
         }
         #endregion
     }

@@ -2,7 +2,7 @@
 
 namespace AntsColonies
 {
-    internal class Larva : Creature
+    internal class Larva
     {
         internal enum LarvaType
         {
@@ -44,7 +44,7 @@ namespace AntsColonies
                     Array valuesWorker = WorkerRank.GetValues(typeof(WorkerRank));
                     WorkerRank randomWorkerRank = (WorkerRank)valuesWorker.GetValue(Globals.Random.Next(valuesWorker.Length));
                     
-                    _queen.Colony.Workers.Add(new AntWorker(0, 0, 0, _queen, randomWorkerRank));
+                    _queen.Colony.Workers.Add(new AntWorker(_queen, randomWorkerRank));
                     _queen.Colony.Larvas.Remove(this);
 
                     _queen.Colony.NewWorkers++;
@@ -54,7 +54,7 @@ namespace AntsColonies
                     Array valuesWarrior = WarriorRank.GetValues(typeof(WarriorRank));
                     WarriorRank randomWarriorRank = (WarriorRank)valuesWarrior.GetValue(Globals.Random.Next(valuesWarrior.Length));
                     
-                    _queen.Colony.Warriors.Add(new AntWarrior(0, 0, 0, _queen, randomWarriorRank));
+                    _queen.Colony.Warriors.Add(new AntWarrior(_queen, randomWarriorRank));
                     _queen.Colony.Larvas.Remove(this);
 
                     _queen.Colony.NewWarriors++;

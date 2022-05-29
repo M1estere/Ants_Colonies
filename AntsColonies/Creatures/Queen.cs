@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AntsColonies
 {
@@ -39,6 +40,14 @@ namespace AntsColonies
             _maxQueensToMake = _maxLarvas;
         }
 
+        internal void PrintFriends()
+        {
+            foreach(Queen queen in FriendQueens)
+            {
+                Console.WriteLine($"\tДружественна королеве {queen.Name} из колонии {queen.Colony.Name}");
+            }
+        }
+        
         internal void MakeLarvas()
         {
             int larvasAmount = Globals.Random.Next(_minLarvas, _maxLarvas + 1);

@@ -8,7 +8,7 @@
         internal int Protection;
         internal int Damage;
 
-        protected Creature(int health, int protection, int damage/*, Resource[]? _canTake = null*/)
+        protected Creature(int health, int protection, int damage)
         {
             Health = health;
             Protection = protection;
@@ -17,7 +17,7 @@
             Health += Protection;
         }
         
-        protected Creature(Queen queen, int health, int protection, int damage/*, Resource[]? _canTake = null*/)
+        protected Creature(Queen queen, int health, int protection, int damage)
         {
             Queen = queen;
             
@@ -27,12 +27,5 @@
 
             Health += Protection;
         }
-
-        protected Creature()
-        {
-            
-        }
-
-        internal virtual void GetInfo() { }
     }
 }

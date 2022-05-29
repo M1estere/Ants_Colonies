@@ -1,8 +1,9 @@
 C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\bin\Debug\AntsColonies.exe
 C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\bin\Debug\AntsColonies.pdb
-C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\obj\Debug\AntsColonies.csprojAssemblyReference.cache
 C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\obj\Debug\AntsColonies.csproj.CoreCompileInputs.cache
 C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\obj\Debug\AntsColonies.exe
 C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\obj\Debug\AntsColonies.pdb
 C:\Users\71566\Desktop\Ants_Colonies-main\AntsColonies\obj\Debug\AntsColonies.exe
 C:\Users\71566\Desktop\Ants_Colonies-main\AntsColonies\obj\Debug\AntsColonies.pdb
+C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\obj\Debug\AntsColonies.csproj.AssemblyReference.cache
+C:\Users\Илья\Desktop\Практика\Решение\AntsColonies\AntsColonies\obj\Debug\AntsColonies.csproj.SuggestedBindingRedirects.cache

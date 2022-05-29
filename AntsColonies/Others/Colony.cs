@@ -39,20 +39,18 @@ namespace AntsColonies
             
             Workers = new List<AntWorker>();
             Warriors = new List<AntWarrior>();
-
-            CreateCommonAnts(3, 3);
         }
 
-        private void CreateCommonAnts(int specialWorkers, int specialWarriors)
+        internal void CreateAnts(List<WorkerRank> workerRanks, List<WarriorRank> warriorRanks)
         {
-            for (int i = 0; i < (_workersAmount - specialWorkers); i++)
+            for (int i = 0; i < _workersAmount; i++)
             {
-                Workers.Add(new AntWorker(1,0,1, Queen, WorkerRank.Common));
+                Workers.Add(new AntWorker(Queen, workerRanks[Globals.Random.Next(0, workerRanks.Count)]));
             }
 
-            for (int i = 0; i < (_warriorsAmount - specialWarriors); i++)
+            for (int i = 0; i < _warriorsAmount; i++)
             {
-                Warriors.Add(new AntWarrior(1, 0, 1, Queen, WarriorRank.Common));
+                Warriors.Add(new AntWarrior(Queen, warriorRanks[Globals.Random.Next(0, warriorRanks.Count)]));
             }
         }
 
@@ -60,6 +58,7 @@ namespace AntsColonies
         {
             Console.WriteLine($"\nКолония: {Name}");
             Console.WriteLine($"1) Королева: {Queen.Name}, Личинок: {Larvas.Count}");
+            Queen.PrintFriends();
             Console.WriteLine($"2) Ресурсы: Ветки: {Branches}; Листья: {Leaves}; Росинки: {Dewdrops}; Камни: {Stones}");
             Console.WriteLine($"3) Муравьи: {Workers.Count + Warriors.Count + Specials.Count}\n\tРабочие: {Workers.Count}; Воины: {Warriors.Count}; Особенных: {Specials.Count}\n");
         }

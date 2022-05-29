@@ -14,20 +14,13 @@ namespace AntsColonies
 
         internal bool CanOneShot = true;
         
-        public AntWarrior(int health, int protection, int damage, Queen queen, WarriorRank rank) : base(queen, health, protection, damage)
+        public AntWarrior(Queen queen, WarriorRank rank, int health = 0, int protection = 0, int damage = 0) : base(queen, health, protection, damage)
         {
             Queen = queen;
             Rank = rank;
             
             switch (rank)
             {
-                case WarriorRank.Common:
-                    Health = 1;
-                    Protection = 0;
-                    Damage = 1;
-                    AntsToAttack = 1;
-                    _maxBiteCount = 1;
-                    break;
                 case WarriorRank.Advanced:
                     Health = 6;
                     Protection = 2;
@@ -63,7 +56,7 @@ namespace AntsColonies
             Health += Protection;
         }
         
-        internal override void GetInfo()
+        internal void GetInfo()
         {
             Console.WriteLine("\n---------------------------------------------\n");
             Console.WriteLine($"Муравей - Воин ({Rank})\nЗдоровье: {Health}; Защита: {Protection}; Урон: {Damage}");

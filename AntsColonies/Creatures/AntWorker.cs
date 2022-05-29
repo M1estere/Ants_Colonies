@@ -6,16 +6,12 @@ namespace AntsColonies
     {
         private readonly WorkerRank _rank;
 
-        public AntWorker(int health, int protection, int damage, Queen queen, WorkerRank rank) : base(queen, health, protection, damage)
+        public AntWorker(Queen queen, WorkerRank rank, int health = 0, int protection = 0, int damage = 0) : base(queen, health, protection, damage)
         {
             Queen = queen;
             _rank = rank;
             switch (rank)
             {
-                case WorkerRank.Common:
-                    Health = 1;
-                    Protection = 0;
-                    break;
                 case WorkerRank.ElderOne:
                     Health = 2;
                     Protection = 1;
@@ -43,7 +39,7 @@ namespace AntsColonies
                 default:
                     throw new ArgumentOutOfRangeException(nameof(rank), rank, null);
             }
-
+            
             Damage = 0;
             Health += Protection;
         }
@@ -52,40 +48,6 @@ namespace AntsColonies
         {
             switch (_rank)
             {
-                case WorkerRank.Common:
-                    int random = Globals.Random.Next(0, 4);
-                    switch (random)
-                    {
-                        case 0:
-                            if (stack.Branches > 0)
-                            {
-                                stack.Branches--;
-                                squad.Branches++;
-                            }
-                            break;
-                        case 1:
-                            if (stack.Leaves > 0)
-                            {
-                                stack.Leaves--;
-                                squad.Leaves++;
-                            }
-                            break;
-                        case 2:
-                            if (stack.Dewdrops > 0)
-                            {
-                                stack.Dewdrops--;
-                                squad.Dewdrops++;
-                            }
-                            break;
-                        case 3:
-                            if (stack.Stones > 0)
-                            {
-                                stack.Stones--;
-                                squad.Stones++;
-                            }
-                            break;
-                    }
-                    break;
                 case WorkerRank.ElderOne:
                     int randomResourceOne = Globals.Random.Next(0, 2);
                     if (randomResourceOne % 2 == 0)
@@ -183,7 +145,7 @@ namespace AntsColonies
             }
         }
 
-        internal override void GetInfo()
+        internal void GetInfo()
         {
             Console.WriteLine("\n---------------------------------------------\n");
             Console.WriteLine($"Муравей - Рабочий ({_rank})\nЗдоровье: {Health}; Защита: {Protection}; Урон: {Damage}");

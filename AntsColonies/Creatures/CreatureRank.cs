@@ -2,7 +2,6 @@
 {
     public enum WarriorRank
     {
-        Common,
         Elder,
         Elite,
         Legend,
@@ -11,7 +10,6 @@
 
     public enum WorkerRank
     {
-        Common,
         ElderOne,
         ElderTwo,
         Elite,
